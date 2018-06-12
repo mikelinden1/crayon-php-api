@@ -1,5 +1,6 @@
 <?php
 require_once('php-crud-api/class-php-crud-api.php');
+require_once('database-connection.php');
 
 // require 'auth.php'; // from the PHP-API-AUTH project, see: https://github.com/mevdschee/php-api-auth
 
@@ -28,12 +29,12 @@ require_once('php-crud-api/class-php-crud-api.php');
 // uncomment the lines below when running in stand-alone mode:
 
 $api = new PHP_CRUD_API(array(
-	'dbengine'=>'MySQL',
-	'hostname'=>'localhost',
-	'username'=>'root',
-	'password'=>'root',
-	'database'=>'php_crud_api',
-	'charset'=>'utf8'
+	'dbengine' => 'MySQL',
+	'hostname' => $db_host,
+	'username' => $db_user,
+	'password' => $db_pass,
+	'database' => $db_name,
+	'charset' => 'utf8'
 ));
 $api->executeCommand();
 
