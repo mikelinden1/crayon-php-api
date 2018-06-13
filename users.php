@@ -1,14 +1,12 @@
 <?php
-$request_method = $_SERVER['REQUEST_METHOD'];
+require_once('preflight-check.php');
 
 header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Credentials: true');
 
-if ($request_method === 'OPTIONS') {
-    exit;
-}
+require_once('authorize.php');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -22,6 +20,8 @@ $username   = mysqli_real_escape_string($dbc, $input['username']);
 $password   = mysqli_real_escape_string($dbc, $input['password']);
 
 $password_hashed = sha1($password);
+
+$request_method = $_SERVER['REQUEST_METHOD'];
 
 switch ($request_method) {
     case 'GET':
