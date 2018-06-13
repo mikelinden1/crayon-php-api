@@ -1,8 +1,5 @@
 <?php
-error_reporting(-1);
-ini_set('display_errors', 'On');
-
-header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 
 require_once('database-connection.php');
@@ -17,13 +14,21 @@ $input = json_decode(file_get_contents('php://input'),true);
 $username = mysqli_real_escape_string($dbc, trim($input['username']));
 $password = mysqli_real_escape_string($dbc, trim($input['password']));
 
+header('Content-Type: application/json');
+
+if (empty($username) || empty($password)) {
+    die(json_encode(error_response('Please enter both a username and password')));
+}
+
 $output = do_login($username, $password, $dbc);
 
-header('Content-Type: application/json');
 echo json_encode($output);
 
 mysqli_close($dbc);
 
+function error_response($msg) {
+    return array('success' => false, 'msg' => $msg);
+}
 
 function do_login($username, $password, $dbc) {
     $valid_login = false;
@@ -46,7 +51,7 @@ function do_login($username, $password, $dbc) {
     }
 
     if (!$valid_login) {
-        return array('success' => false, 'errorMessage' => 'Your email or password is incorrect. Please try again.');
+        return error_response('Your email or password is incorrect. Please try again.');
     }
 
     $tokenId    = base64_encode(mcrypt_create_iv(32));
