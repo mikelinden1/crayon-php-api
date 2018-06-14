@@ -1,11 +1,11 @@
 <?php
-require_once('../utils/preflight-check.php');
+require_once('utils/preflight-check.php');
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-require_once('../utils/authorize.php');
-require_once('../utils/database-connection.php');
+require_once('utils/authorize.php');
+require_once('utils/database-connection.php');
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 header('Content-Type: application/json');
@@ -21,7 +21,7 @@ if (!empty($_FILES['file'])) {
 
     $new_name = "$filename-$module_id-$random.$extension";
     $path = $_POST['uploadDir'];
-    $path = "../$path/$new_name";
+    $path = "$path/$new_name";
 
     $user_id = $authorized_user->data->userId;
 
