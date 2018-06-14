@@ -1,4 +1,4 @@
-# A crude php api that works with Crayon CMS (WIP)
+# A crude PHP API that works with Crayon CMS (WIP)
 
 ## Sample .htaccess file
 ```
