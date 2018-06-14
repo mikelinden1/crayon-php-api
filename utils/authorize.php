@@ -2,9 +2,9 @@
 require_once('../vendor/autoload.php');
 use \Firebase\JWT\JWT;
 
-$authorized = has_api_access();
+$authorized_user = has_api_access();
 
-if (!$authorized) {
+if (!$authorized_user) {
     echo 'Not authorized';
     exit;
 }
@@ -17,9 +17,9 @@ function has_api_access() {
         try {
             // decode the jwt into a user
             $secretKey  = md5("thesecretkey");
-            JWT::decode($jwt, $secretKey, array('HS512'));
+            $user = JWT::decode($jwt, $secretKey, array('HS512'));
 
-            return true;
+            return $user;
         } catch(Exception $e) {
             header('HTTP/1.0 401 Unauthorized');
             return false;

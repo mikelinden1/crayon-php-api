@@ -11,7 +11,6 @@ require_once('../utils/database-connection.php');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 $id         = (int)$_GET['id'];
