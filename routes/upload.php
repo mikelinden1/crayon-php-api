@@ -1,12 +1,5 @@
 <?php
-require_once('utils/preflight-check.php');
-
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
 require_once('utils/authorize.php');
-require_once('utils/database-connection.php');
-$dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 header('Content-Type: application/json');
 
@@ -48,8 +41,4 @@ if (!empty($_FILES['file'])) {
     }
 } else {
     error_response('No file to upload');
-}
-
-function error_response($msg) {
-    return array('success' => false, 'msg' => $msg);
 }

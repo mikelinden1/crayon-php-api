@@ -4,6 +4,16 @@ error_reporting(-1);
 ini_set('display_errors', 'On');
 */
 
+require_once('utils/preflight-check.php');
+require_once('utils/database-connection.php');
+
+header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+$input = json_decode(file_get_contents('php://input'), true);
+$dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+
 $request = $_GET['request'];
 
 switch ($request) {
@@ -22,4 +32,8 @@ switch ($request) {
     default:
         require_once('routes/api.php');
         break;
+}
+
+function error_response($msg) {
+    return array('success' => false, 'msg' => $msg);
 }
