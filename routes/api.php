@@ -1,7 +1,5 @@
 <?php
-require_once('utils/preflight-check.php');
 require_once('utils/authorize.php');
-require_once('utils/database-connection.php');
 require_once('php-crud-api/class-php-crud-api.php');
 
 $api = new PHP_CRUD_API(array(

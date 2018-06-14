@@ -1,15 +1,7 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-
-require_once('utils/database-connection.php');
 require_once('vendor/autoload.php');
 
 use \Firebase\JWT\JWT;
-
-$dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
-
-$input = json_decode(file_get_contents('php://input'),true);
 
 $username = mysqli_real_escape_string($dbc, trim($input['username']));
 $password = mysqli_real_escape_string($dbc, trim($input['password']));
@@ -25,10 +17,6 @@ $output = do_login($username, $password, $dbc);
 echo json_encode($output);
 
 mysqli_close($dbc);
-
-function error_response($msg) {
-    return array('success' => false, 'msg' => $msg);
-}
 
 function do_login($username, $password, $dbc) {
     $valid_login = false;

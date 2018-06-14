@@ -1,12 +1,7 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Content-Type');
-
 require_once('vendor/autoload.php');
 
 use \Firebase\JWT\JWT;
-
-$input = json_decode(file_get_contents('php://input'),true);
 
 $jwt = $input['jwt'];
 
@@ -25,7 +20,3 @@ echo json_encode(array(
 ));
 
 mysqli_close($dbc);
-
-function error_response($msg) {
-    return array('success' => false, 'msg' => $msg);
-}
