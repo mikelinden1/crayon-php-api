@@ -1,16 +1,16 @@
 <?php
-require_once('preflight-check.php');
+require_once('../utils/preflight-check.php');
 
 header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Credentials: true');
 
-require_once('authorize.php');
+require_once('../utils/authorize.php');
+require_once('../utils/database-connection.php');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
-require_once('database-connection.php');
 
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
@@ -77,5 +77,4 @@ switch ($request_method) {
     default:
         http_response_code(401);
         die('Unsupported request method');
- }
-?>
+}
