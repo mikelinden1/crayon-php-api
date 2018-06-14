@@ -4,27 +4,9 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5b0ac214a4a384ec2d2f859b2f8b6f0c
+class ComposerStaticInite51b3c0965705e1edf0cc2312f310841
 {
     public static $prefixLengthsPsr4 = array (
-        'Z' => 
-        array (
-            'Zend\\Validator\\' => 15,
-            'Zend\\Uri\\' => 9,
-            'Zend\\Stdlib\\' => 12,
-            'Zend\\Loader\\' => 12,
-            'Zend\\Http\\' => 10,
-            'Zend\\Escaper\\' => 13,
-            'Zend\\Config\\' => 12,
-        ),
-        'P' => 
-        array (
-            'Psr\\Container\\' => 14,
-        ),
-        'I' => 
-        array (
-            'Interop\\Container\\' => 18,
-        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
@@ -32,42 +14,6 @@ class ComposerStaticInit5b0ac214a4a384ec2d2f859b2f8b6f0c
     );
 
     public static $prefixDirsPsr4 = array (
-        'Zend\\Validator\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-validator/src',
-        ),
-        'Zend\\Uri\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-uri/src',
-        ),
-        'Zend\\Stdlib\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-stdlib/src',
-        ),
-        'Zend\\Loader\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-loader/src',
-        ),
-        'Zend\\Http\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-http/src',
-        ),
-        'Zend\\Escaper\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-escaper/src',
-        ),
-        'Zend\\Config\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-config/src',
-        ),
-        'Psr\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
-        ),
-        'Interop\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
-        ),
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
@@ -77,8 +23,8 @@ class ComposerStaticInit5b0ac214a4a384ec2d2f859b2f8b6f0c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5b0ac214a4a384ec2d2f859b2f8b6f0c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5b0ac214a4a384ec2d2f859b2f8b6f0c::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite51b3c0965705e1edf0cc2312f310841::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite51b3c0965705e1edf0cc2312f310841::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
