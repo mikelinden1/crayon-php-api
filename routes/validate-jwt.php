@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once('../vendor/autoload.php');
+require_once('vendor/autoload.php');
 
 use \Firebase\JWT\JWT;
 

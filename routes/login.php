@@ -2,8 +2,8 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-require_once('../utils/database-connection.php');
-require_once('../vendor/autoload.php');
+require_once('utils/database-connection.php');
+require_once('vendor/autoload.php');
 
 use \Firebase\JWT\JWT;
 

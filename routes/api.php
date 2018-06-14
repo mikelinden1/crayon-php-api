@@ -1,13 +1,8 @@
 <?php
-/*
-error_reporting(-1);
-ini_set('display_errors', 'On');
-*/
-
-require_once('../utils/preflight-check.php');
-require_once('../utils/authorize.php');
-require_once('../utils/database-connection.php');
-require_once('../php-crud-api/class-php-crud-api.php');
+require_once('utils/preflight-check.php');
+require_once('utils/authorize.php');
+require_once('utils/database-connection.php');
+require_once('php-crud-api/class-php-crud-api.php');
 
 $api = new PHP_CRUD_API(array(
 	'dbengine' => 'MySQL',
