@@ -16,7 +16,7 @@ function has_api_access() {
     if ($jwt) {
         try {
             // decode the jwt into a user
-            $secretKey  = md5("Kinetek1!!@#$");
+            $secretKey  = md5("thesecretkey");
             JWT::decode($jwt, $secretKey, array('HS512'));
 
             return true;

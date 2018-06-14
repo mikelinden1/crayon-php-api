@@ -73,7 +73,7 @@ function do_login($username, $password, $dbc) {
         )
     );
 
-    $secretKey = md5("Kinetek1!!@#$");
+    $secretKey = md5("thesecretkey");
 
     $jwt = JWT::encode($data, $secretKey, 'HS512');
 

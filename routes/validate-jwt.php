@@ -10,12 +10,11 @@ $input = json_decode(file_get_contents('php://input'),true);
 
 $jwt = $input['jwt'];
 
-
 if (empty($jwt)) {
     die(json_encode(error_response('Invalid jwt')));
 }
 
-$jwt_data = JWT::decode($jwt, md5("Kinetek1!!@#$"), array('HS512'));
+$jwt_data = JWT::decode($jwt, md5("thesecretkey"), array('HS512'));
 
 header('Content-Type: application/json');
 
