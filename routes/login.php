@@ -39,7 +39,7 @@ function do_login($username, $password, $dbc) {
     }
 
     if (!$valid_login) {
-        return error_response('Your email or password is incorrect. Please try again.');
+        return error_response('Your username or password is incorrect. Please try again.');
     }
 
     $tokenId    = base64_encode(mcrypt_create_iv(32));
@@ -61,9 +61,10 @@ function do_login($username, $password, $dbc) {
         )
     );
 
-    $secretKey = md5("thesecretkey");
+    global $jwt_secret_key;
+    global $jwt_hashing_algorithm;
 
-    $jwt = JWT::encode($data, $secretKey, 'HS512');
+    $jwt = JWT::encode($data, $jwt_secret_key, $jwt_hashing_algorithm);
 
     return array(
         'success' => true,
