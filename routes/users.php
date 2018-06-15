@@ -10,7 +10,7 @@ $name       = mysqli_real_escape_string($dbc, $input['name']);
 $username   = mysqli_real_escape_string($dbc, $input['username']);
 $password   = mysqli_real_escape_string($dbc, $input['password']);
 
-$password_hashed = password_hash($password, PASSWORD_BCRYPT, array('cost' => 14));
+$password_hashed = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
 $request_method = $_SERVER['REQUEST_METHOD'];
 
