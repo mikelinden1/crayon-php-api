@@ -1,5 +1,6 @@
 <?php
 require_once('vendor/autoload.php');
+// require_once('utils/hash-password.php');
 
 use \Firebase\JWT\JWT;
 
@@ -32,7 +33,7 @@ function do_login($username, $password, $dbc) {
     		$stmt->bind_result($user_id, $user_name, $db_password);
     		$stmt->fetch();
 
-    		if ($db_password === SHA1($password)) {
+            if (password_verify($password, $db_password)) {
         		$valid_login = true;
     		}
         }
