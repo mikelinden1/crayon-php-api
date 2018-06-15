@@ -5,23 +5,24 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-$id         = (int)$_GET['id'];
+$id         = (int)mysqli_real_escape_string($dbc, $input['id']);
 $name       = mysqli_real_escape_string($dbc, $input['name']);
 $username   = mysqli_real_escape_string($dbc, $input['username']);
 $password   = mysqli_real_escape_string($dbc, $input['password']);
 
-$password_hashed = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
-
 $request_method = $_SERVER['REQUEST_METHOD'];
+
+$stmt = $dbc->stmt_init();
 
 switch ($request_method) {
     case 'GET':
         $output = array();
-        $query = 'select id, name, username From users';
 
-		$result = mysqli_query($dbc, $query);
+        $stmt->prepare('select id, name, username from users');
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-		while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
             array_push($output, $row);
         }
 
@@ -33,39 +34,53 @@ switch ($request_method) {
 
         exit;
     case 'POST':
-		$query = "insert users (name, username, password_hashed) values ('$name', '$username', '$password_hashed')";
-		mysqli_query($dbc, $query);
+        $password_hashed = hash_password($password);
 
-		echo mysqli_insert_id($dbc);
+        $stmt->prepare('insert users (name, username, password_hashed) values (?, ?, ?)');
+        $stmt->bind_param('sss', $name, $username, $password_hashed);
+        $stmt->execute();
+
+		echo $stmt->insert_id;
 		exit;
     case 'PUT':
         if (empty($id)) {
             http_response_code(404);
+            die(json_encode(error_response('No Id')));
         }
 
-		$query = "update users set name='$name', username='$username'";
+		if (empty($password)) {
+    		$stmt->prepare('update users set name=?, username=? where id=?');
+            $stmt->bind_param('ssi', $name, $username, $id);
+        } else {
+            $password_hashed = hash_password($password);
 
-		if (!empty($password)) {
-    		$query .= ", password_hashed='$password_hashed'";
+    		$stmt->prepare('update users set name=?, username=?, password_hashed=? where id=?');
+            $stmt->bind_param('sssi', $name, $username, $password_hashed, $id);
 		}
 
-		$query .= " where id=$id";
-
-		mysqli_query($dbc, $query);
+        $stmt->execute();
 
 		echo 'ok';
 		exit;
     case 'DELETE':
         if (empty($id)) {
             http_response_code(404);
+            die(json_encode(error_response('No Id')));
         }
 
-        $query = "delete from users where id=$id";
-		mysqli_query($dbc, $query);
+        $stmt->prepare('delete from users where id=?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
 
 		echo 'ok';
 		exit;
     default:
         http_response_code(401);
         die('Unsupported request method');
+}
+
+$stmt->close();
+
+function hash_password($password) {
+    return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 }
