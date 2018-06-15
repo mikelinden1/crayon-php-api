@@ -7,6 +7,8 @@ ini_set('display_errors', 'On');
 require_once('utils/preflight-check.php');
 require_once('utils/database-connection.php');
 
+require_once('utils/jwt-config.php');
+
 header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');

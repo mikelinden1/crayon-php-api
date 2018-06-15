@@ -15,9 +15,11 @@ function has_api_access() {
 
     if ($jwt) {
         try {
+            global $jwt_secret_key;
+            global $jwt_hashing_algorithm;
+
             // decode the jwt into a user
-            $secretKey  = md5("thesecretkey");
-            $user = JWT::decode($jwt, $secretKey, array('HS512'));
+            $user = JWT::decode($jwt, $jwt_secret_key, array($jwt_hashing_algorithm));
 
             return $user;
         } catch(Exception $e) {
