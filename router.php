@@ -16,19 +16,19 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 $input = json_decode(file_get_contents('php://input'), true);
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-$request = $_GET['request'];
+$request = $_SERVER['PATH_INFO'];
 
 switch ($request) {
-    case 'login':
+    case '/login':
         require_once('routes/login.php');
         break;
-    case 'validate-jwt':
+    case '/validate-jwt':
         require_once('routes/validate-jwt.php');
         break;
-    case 'upload':
+    case '/upload':
         require_once('routes/upload.php');
         break;
-    case 'users':
+    case '/users':
         require_once('routes/users.php');
         break;
     default:
