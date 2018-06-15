@@ -4,5 +4,5 @@ global $jwt_server;
 global $jwt_hashing_algorithm;
 
 $jwt_secret_key         = md5('thesecretkey');
-$jwt_server             = 'mikelinden.com';
+$jwt_server             = 'yourserver';
 $jwt_hashing_algorithm  = 'HS512';
