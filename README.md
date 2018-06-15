@@ -1,4 +1,4 @@
-# A PHP API that works with Crayon CMS (WIP)
+# A PHP API that works with Crayon CMS
 
 ## Composer
 Run `composer install` from the project root to install the JWT dependencies.
