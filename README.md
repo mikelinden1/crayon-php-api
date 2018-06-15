@@ -9,6 +9,6 @@ Run `composer install` from the project root to install the JWT dependencies.
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^([a-zA-Z0-9\,\-\/]+)$ /php-crud-api/router.php/$1?request=$1 [QSA,L]
+    RewriteRule ^([a-zA-Z0-9\,\-\/]+)$ router.php/$1?request=$1 [QSA,L]
 </IfModule>
 ```
