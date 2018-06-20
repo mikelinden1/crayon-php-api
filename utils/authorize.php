@@ -13,6 +13,8 @@ function has_api_access() {
     $headers = getallheaders();
     $jwt = $headers['Authorization'];
 
+    $jwt = str_replace('Bearer ', '', $jwt);
+
     if ($jwt) {
         try {
             global $jwt_secret_key;
