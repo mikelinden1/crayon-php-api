@@ -6,5 +6,6 @@ vendor
 # misc
 .DS_Store
 
-#config
+# config
+utils/database-connection.php
 utils/jwt-config.php
