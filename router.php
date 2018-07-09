@@ -28,6 +28,9 @@ switch ($request) {
     case '/upload':
         require_once('routes/upload.php');
         break;
+    case '/ck-upload':
+        require_once('routes/ck-upload.php');
+        break;
     case '/users':
         require_once('routes/users.php');
         break;
