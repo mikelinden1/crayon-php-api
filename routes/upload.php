@@ -12,6 +12,11 @@ if (!empty($_FILES['file'])) {
     $filename = $path_info['filename'];
     $extension = $path_info['extension'];
 
+    $filename = str_replace(' ', '-', $filename);
+    $filename = preg_replace('/[^A-Za-z0-9\-]/', '', $filename);
+    $filename = strtolower($filename);
+    $filename = substr($filename, 0, 20);
+
     $new_name = "$filename-$module_id-$random.$extension";
     $path = $_POST['uploadDir'];
     $path = "$path/$new_name";
