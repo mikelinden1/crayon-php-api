@@ -17,21 +17,23 @@ $input = json_decode(file_get_contents('php://input'), true);
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 $request = $_SERVER['PATH_INFO'];
+$request_components = explode('/', $request);
+$request = $request_components[1];
 
 switch ($request) {
-    case '/login':
+    case 'login':
         require_once('routes/login.php');
         break;
-    case '/validate-jwt':
+    case 'validate-jwt':
         require_once('routes/validate-jwt.php');
         break;
-    case '/upload':
+    case 'upload':
         require_once('routes/upload.php');
         break;
-    case '/ck-upload':
+    case 'ck-upload':
         require_once('routes/ck-upload.php');
         break;
-    case '/users':
+    case 'users':
         require_once('routes/users.php');
         break;
     default:

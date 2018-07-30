@@ -52,6 +52,7 @@ switch ($request_method) {
     		$stmt->prepare('update users set name=?, username=? where id=?');
             $stmt->bind_param('ssi', $name, $username, $id);
         } else {
+            echo 'with password<br/>';
             $password_hashed = hash_password($password);
 
     		$stmt->prepare('update users set name=?, username=?, password_hashed=? where id=?');
@@ -60,9 +61,13 @@ switch ($request_method) {
 
         $stmt->execute();
 
-		echo 'ok';
+		echo 'password: ' . $password;
 		exit;
     case 'DELETE':
+        $request = $_SERVER['PATH_INFO'];
+        $request_components = explode('/', $request);
+        $id = (int)$request_components[2];
+
         if (empty($id)) {
             http_response_code(404);
             die(json_encode(error_response('No Id')));
