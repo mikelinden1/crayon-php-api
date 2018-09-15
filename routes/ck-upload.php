@@ -16,6 +16,7 @@ if (!empty($_FILES['upload'])) {
         $user_id = $authorized_user->data->userId;
 
         if (move_uploaded_file($_FILES['upload']['tmp_name'], $path)) {
+            maybe_rotate_image($path);
     		$file_link = $_GET['uploadFullPath'] . '/' . $new_name;
         } else {
             $message = 'There was an error uploading the file. Check the upload path in config';

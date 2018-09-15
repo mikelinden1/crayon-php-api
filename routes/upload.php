@@ -24,6 +24,8 @@ if (!empty($_FILES['file'])) {
     $user_id = $authorized_user->data->userId;
 
     if (move_uploaded_file($_FILES['file']['tmp_name'], $path)) {
+        maybe_rotate_image($path);
+
         $query = "insert media (filename, module, uploaded_by, upload_date, uploaded_as) values ('$new_name', '$module_id', $user_id, NOW(), '$uploaded_as')";
 		mysqli_query($dbc, $query);
 
