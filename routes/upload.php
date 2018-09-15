@@ -1,5 +1,6 @@
 <?php
 require_once('utils/authorize.php');
+require_once('utils/ImageManipulator.php');
 
 header('Content-Type: application/json');
 
@@ -19,12 +20,26 @@ if (!empty($_FILES['file'])) {
 
     $new_name = "$filename-$module_id-$random.$extension";
     $path = $_POST['uploadDir'];
-    $path = "$path/$new_name";
-
+    $full_path = "$path/$new_name";
     $user_id = $authorized_user->data->userId;
 
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $path)) {
-        maybe_rotate_image($path);
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $full_path)) {
+        maybe_rotate_image($full_path);
+
+        // generate thumbnail images
+        $image_manipulator = new ImageManipulator($full_path);
+
+        $large = $image_manipulator->resample(2000, 2000);
+        $large_path = "$path/large_$new_name";
+        $large->save($large_path);
+
+        $medium = $image_manipulator->resample(800, 800);
+        $medium_path = "$path/medium_$new_name";
+        $medium->save($medium_path);
+
+        $thumb = $image_manipulator->resample(200, 200);
+        $thumb_path = "$path/thumb_$new_name";
+        $thumb->save($thumb_path);
 
         $query = "insert media (filename, module, uploaded_by, upload_date, uploaded_as) values ('$new_name', '$module_id', $user_id, NOW(), '$uploaded_as')";
 		mysqli_query($dbc, $query);
