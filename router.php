@@ -37,6 +37,9 @@ switch ($request) {
     case 'users':
         require_once('routes/users.php');
         break;
+    case 'media':
+        require_once('routes/media.php');
+        break;
     default:
         require_once('routes/api.php');
         break;

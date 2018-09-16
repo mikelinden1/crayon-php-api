@@ -12,16 +12,21 @@ if (!empty($_FILES['file'])) {
 
     $filename = $path_info['filename'];
     $extension = $path_info['extension'];
+    $extension = strtolower($extension);
+    
+    $label = $filename;
 
     $filename = str_replace(' ', '-', $filename);
     $filename = preg_replace('/[^A-Za-z0-9\-]/', '', $filename);
     $filename = strtolower($filename);
     $filename = substr($filename, 0, 20);
 
+
     $new_name = "$filename-$module_id-$random.$extension";
     $path = $_POST['uploadDir'];
     $full_path = "$path/$new_name";
     $user_id = $authorized_user->data->userId;
+    $user_name = $authorized_user->data->name;
 
     if (move_uploaded_file($_FILES['file']['tmp_name'], $full_path)) {
         maybe_rotate_image($full_path);
@@ -41,16 +46,18 @@ if (!empty($_FILES['file'])) {
         $thumb_path = "$path/thumb_$new_name";
         $thumb->save($thumb_path);
 
-        $query = "insert media (filename, module, uploaded_by, upload_date, uploaded_as) values ('$new_name', '$module_id', $user_id, NOW(), '$uploaded_as')";
+        $query = "insert media (name, filename, module, uploaded_by, upload_date, uploaded_as) values ('$label', '$new_name', '$module_id', $user_id, NOW(), '$uploaded_as')";
 		mysqli_query($dbc, $query);
 
 		$new_id = mysqli_insert_id($dbc);
 
         $new_media = array(
             'id' => $new_id,
+            'name' => $label,
             'filename' => $new_name,
             'module' => $module_id,
-            'uploaded_by' => $user_id,
+            'upload_date' => date('m/d/Y g:i A'),
+            'uploaded_by' => $user_name,
             'uploaded_as' => $uploaded_as
         );
 
