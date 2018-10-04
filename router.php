@@ -1,8 +1,8 @@
 <?php
-/*
+
 error_reporting(-1);
 ini_set('display_errors', 'On');
-*/
+
 
 require_once('utils/preflight-check.php');
 require_once('utils/database-connection.php');

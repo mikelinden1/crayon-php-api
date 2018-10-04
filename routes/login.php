@@ -43,7 +43,9 @@ function do_login($username, $password, $dbc) {
         return error_response('Your username or password is incorrect. Please try again.');
     }
 
-    $tokenId    = base64_encode(random_bytes(32));
+    $random_bytes = function_exists('random_bytes') ? random_bytes(32) : mt_rand();
+    
+    $tokenId    = base64_encode($random_bytes);
     $issuedAt   = time();
     $notBefore  = $issuedAt;
     $expire     = $notBefore + 60*60*24*30;
