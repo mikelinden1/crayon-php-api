@@ -71,17 +71,16 @@ switch ($request_method) {
         $stmt->prepare('select filename from media where id=?');
         $stmt->bind_param('i', $id);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->bind_result($filename);
+        $stmt->fetch();
 
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-            $file_sizes = array('', 'thumb_', 'medium_', 'large_');
+        $file_sizes = array('', 'thumb_', 'medium_', 'large_');
 
-            foreach ($file_sizes as $size) {
-                $filename = $upload_path . '/' . $size . $row['filename'];
+        foreach ($file_sizes as $size) {
+            $filename = $upload_path . '/' . $size . $filename;
 
-                if (file_exists($filename)) {
-                    unlink($filename);
-                }
+            if (file_exists($filename)) {
+                unlink($filename);
             }
         }
 
