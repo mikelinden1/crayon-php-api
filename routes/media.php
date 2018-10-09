@@ -18,10 +18,19 @@ switch ($request_method) {
 
         $stmt->prepare('select media.id, media.name, media.filename, media.module, media.upload_date, media.uploaded_as, users.name as uploaded_by from media inner join users on media.uploaded_by = users.id');
         $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->bind_result($id, $name, $filename, $module, $upload_date, $uploaded_as, $uploaded_by);
 
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-            $row['upload_date'] = date('m/d/Y g:i A', strtotime($row['upload_date']));
+        while ($stmt->fetch()) {
+            $row = array(
+                'id' => $id,
+                'name' => $name,
+                'filename' => $filename,
+                'module' => $module,
+                'upload_date' => date('m/d/Y g:i A', strtotime($upload_date)),
+                'uploaded_as' => $uploaded_as,
+                'uploaded_by' => $uploaded_by
+            );
+
             array_push($output, $row);
         }
 

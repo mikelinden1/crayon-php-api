@@ -20,9 +20,15 @@ switch ($request_method) {
 
         $stmt->prepare('select id, name, username from users');
         $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt->bind_result($id, $name, $username);
 
-        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        while ($stmt->fetch()) {
+            $row = array(
+                'id' => $id,
+                'name' => $name,
+                'username' => $username
+            );
+            
             array_push($output, $row);
         }
 
