@@ -11,7 +11,7 @@ if (!$authorized_user) {
 
 function has_api_access() {
     $headers = getallheaders();
-    $jwt = $headers['Authorization'];
+    $jwt = $headers['authorization'];
 
     $jwt = str_replace('Bearer ', '', $jwt);
 
