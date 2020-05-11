@@ -13,6 +13,10 @@ function has_api_access() {
     $headers = getallheaders();
     $jwt = !empty($headers['Authorization']) ? $headers['Authorization'] : $headers['authorization'];
 
+    if (empty($jwt)) {
+        $jwt = $headers['authorization'];
+    }
+
     $jwt = str_replace('Bearer ', '', $jwt);
 
     if ($jwt) {
