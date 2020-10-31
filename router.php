@@ -17,9 +17,14 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 $input = json_decode(file_get_contents('php://input'), true);
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-$request = $_SERVER['PATH_INFO'];
-$request_components = explode('/', $request);
-$request = $request_components[1];
+if (empty($_GET['request'])) {
+    $request = $_SERVER['PATH_INFO'];
+
+    $request_components = explode('/', $request);
+    $request = $request_components[1];
+} else {
+    $request = $_GET['request'];
+}
 
 switch ($request) {
     case 'login':
