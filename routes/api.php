@@ -8,7 +8,8 @@ $api = new PHP_CRUD_API(array(
 	'username' => $db_user,
 	'password' => $db_pass,
 	'database' => $db_name,
-	'charset' => 'utf8'
+	'charset' => 'utf8',
+	'request' => $request
 ));
 
 $api->executeCommand();
