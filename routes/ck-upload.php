@@ -1,5 +1,5 @@
 <?php
-// require_once('utils/authorize.php');
+require_once('utils/authorize.php');
 
 $upload_full_path = isset($_GET['uploadFullPath']) ? $_GET['uploadFullPath'] : '/uploads';
 $upload_path = isset($_GET['uploadPath']) ? $_GET['uploadPath'] : '../uploads';

@@ -26,6 +26,10 @@ if (empty($_GET['request'])) {
     $request = $_GET['request'];
 }
 
+if (substr($request, -1) === '/') {
+    $request = substr($request, 0, -1);
+}
+
 switch ($request) {
     case 'login':
         require_once('routes/login.php');
