@@ -22,16 +22,16 @@ $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 if (empty($_GET['request'])) {
     $request = $_SERVER['PATH_INFO'];
-
-    $request_components = explode('/', $request);
-    $request = $request_components[1];
 } else {
     $request = $_GET['request'];
 }
 
-if (substr($request, -1) === '/') {
-    $request = substr($request, 0, -1);
-}
+// remove slashes from beginning and end
+$request = ltrim($request, '/');
+$request = rtrim($request, '/');
+
+$request_components = explode('/', $request);
+$request = $request_components[0];
 
 switch ($request) {
     case 'login':
