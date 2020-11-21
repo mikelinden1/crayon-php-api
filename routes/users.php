@@ -1,11 +1,8 @@
 <?php
 require_once('utils/authorize.php');
 
-$input = json_decode(file_get_contents('php://input'), true);
-
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-$id         = (int)mysqli_real_escape_string($dbc, $input['id']);
 $name       = mysqli_real_escape_string($dbc, $input['name']);
 $username   = mysqli_real_escape_string($dbc, $input['username']);
 $password   = mysqli_real_escape_string($dbc, $input['password']);
@@ -49,6 +46,8 @@ switch ($request_method) {
 		echo $stmt->insert_id;
 		exit;
     case 'PUT':
+        $id = (int)$request_components[1];
+
         if (empty($id)) {
             http_response_code(404);
             die(json_encode(error_response('No Id')));
@@ -58,7 +57,6 @@ switch ($request_method) {
     		$stmt->prepare('update users set name=?, username=? where id=?');
             $stmt->bind_param('ssi', $name, $username, $id);
         } else {
-            echo 'with password<br/>';
             $password_hashed = hash_password($password);
 
     		$stmt->prepare('update users set name=?, username=?, password_hashed=? where id=?');
@@ -67,12 +65,9 @@ switch ($request_method) {
 
         $stmt->execute();
 
-		echo 'password: ' . $password;
 		exit;
     case 'DELETE':
-        $request = $_SERVER['PATH_INFO'];
-        $request_components = explode('/', $request);
-        $id = (int)$request_components[2];
+        $id = (int)$request_components[1];
 
         if (empty($id)) {
             http_response_code(404);
