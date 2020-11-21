@@ -7,6 +7,9 @@
 require_once('utils/preflight-check.php');
 require_once('utils/database-connection.php');
 
+// required for PHP versions <5.5
+require_once('utils/password-forward-compat.php');
+
 require_once('utils/jwt-config.php');
 require_once('utils/helper-functions.php');
 
