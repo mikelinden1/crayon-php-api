@@ -17,7 +17,6 @@ header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
-$input = json_decode(file_get_contents('php://input'), true);
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 if (empty($_GET['request'])) {
@@ -31,9 +30,9 @@ $request = ltrim($request, '/');
 $request = rtrim($request, '/');
 
 $request_components = explode('/', $request);
-$request = $request_components[0];
+$request_route = $request_components[0];
 
-switch ($request) {
+switch ($request_route) {
     case 'login':
         require_once('routes/login.php');
         break;

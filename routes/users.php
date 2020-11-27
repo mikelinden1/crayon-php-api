@@ -3,6 +3,7 @@ require_once('utils/authorize.php');
 
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
+$input = json_decode(file_get_contents('php://input'), true);
 $name       = mysqli_real_escape_string($dbc, $input['name']);
 $username   = mysqli_real_escape_string($dbc, $input['username']);
 $password   = mysqli_real_escape_string($dbc, $input['password']);
