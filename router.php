@@ -48,6 +48,9 @@ switch ($request_route) {
     case 'users':
         require_once('routes/users.php');
         break;
+    case 'accounts':
+        require_once('routes/accounts.php');
+        break;
     case 'media':
         require_once('routes/media.php');
         break;
