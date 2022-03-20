@@ -26,7 +26,6 @@ function has_api_access() {
 
             // decode the jwt into a user
             $user = JWT::decode($jwt, $jwt_secret_key, array($jwt_hashing_algorithm));
-
             return $user;
         } catch(Exception $e) {
             header('HTTP/1.0 401 Unauthorized');

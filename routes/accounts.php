@@ -3,11 +3,12 @@ require_once('utils/authorize.php');
 
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-$input     = json_decode(file_get_contents('php://input'), true);
-$name      = mysqli_real_escape_string($dbc, $input['name']);
-$email     = mysqli_real_escape_string($dbc, $input['email']);
-$password  = mysqli_real_escape_string($dbc, $input['password']);
-$stripe_id = mysqli_real_escape_string($dbc, $input['stripe_id']);
+$input      = json_decode(file_get_contents('php://input'), true);
+$first_name = mysqli_real_escape_string($dbc, $input['first_name']);
+$last_name  = mysqli_real_escape_string($dbc, $input['last_name']);
+$email      = mysqli_real_escape_string($dbc, $input['email']);
+$password   = mysqli_real_escape_string($dbc, $input['password']);
+$stripe_id  = mysqli_real_escape_string($dbc, $input['stripe_id']);
 
 $request_method = $_SERVER['REQUEST_METHOD'];
 
@@ -17,14 +18,15 @@ switch ($request_method) {
     case 'GET':
         $output = array();
 
-        $stmt->prepare('select id, name, email, create_date, last_login, login_count, stripe_id from accounts');
+        $stmt->prepare('select id, first_name, last_name, email, create_date, last_login, login_count, stripe_id from accounts');
         $stmt->execute();
-        $stmt->bind_result($id, $name, $email, $create_date, $last_login, $login_count, $stripe_id);
+        $stmt->bind_result($id, $first_name, $last_name, $email, $create_date, $last_login, $login_count, $stripe_id);
 
         while ($stmt->fetch()) {
             $row = array(
                 'id' => $id,
-                'name' => $name,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
                 'email' => $email,
                 'create_date' => $create_date,
                 'last_login' => $last_login,
@@ -44,9 +46,10 @@ switch ($request_method) {
         exit;
     case 'POST':
         $password_hashed = hash_password($password);
+        $ref_code = generate_referal_code($first_name . ' ' . $last_name);
 
-        $stmt->prepare('insert accounts (name, email, password, stripe_id) values (?, ?, ?, ?)');
-        $stmt->bind_param('ssss', $name, $email, $password_hashed, $stripe_id);
+        $stmt->prepare('insert accounts (first_name, last_name, email, password, stripe_id, referral_code) values (?, ?, ?, ?, ?, ?)');
+        $stmt->bind_param('ssssss', $first_name, $last_name, $email, $password_hashed, $stripe_id, $ref_code);
         $stmt->execute();
 
 		echo $stmt->insert_id;
@@ -60,13 +63,13 @@ switch ($request_method) {
         }
 
 		if (empty($password)) {
-    		$stmt->prepare('update accounts set name=?, email=?, stripe_id=? where id=?');
-            $stmt->bind_param('sssi', $name, $email, $stripe_id, $id);
+    		$stmt->prepare('update accounts set first_name=?, last_name=?, email=?, stripe_id=? where id=?');
+            $stmt->bind_param('ssssi', $first_name, $last_name, $email, $stripe_id, $id);
         } else {
             $password_hashed = hash_password($password);
 
-    		$stmt->prepare('update accounts set name=?, email=?, password=?, stripe_id=? where id=?');
-            $stmt->bind_param('ssssi', $name, $email, $password_hashed, $stripe_id, $id);
+    		$stmt->prepare('update accounts set first_name=?, last_name=?, email=?, password=?, stripe_id=? where id=?');
+            $stmt->bind_param('sssssi', $first_name, $last_name, $email, $password_hashed, $stripe_id, $id);
 		}
 
         $stmt->execute();
@@ -95,4 +98,20 @@ $stmt->close();
 
 function hash_password($password) {
     return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+}
+function generate_referal_code($name) {
+    $name = trim($name);
+    $code = '';
+    if (!empty($name)) {
+        $name_parts = explode(' ', $name);
+        $code .= $name_parts[0];
+
+        if (count($name_parts) > 1) {
+            $code .= $name_parts[1][0]; 
+        }
+    }
+
+    $code .= dechex(time());
+
+    return strToLower($code);
 }
