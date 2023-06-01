@@ -1,8 +1,8 @@
 <?php
 // require_once('utils/authorize.php');
 
-$upload_full_path = isset($_GET['uploadFullPath']) ? $_GET['uploadFullPath'] : '/uploads';
-$upload_path = isset($_GET['uploadPath']) ? $_GET['uploadPath'] : '../uploads';
+$upload_full_path = isset($_GET['uploadFullPath']) ? $_GET['uploadFullPath'] : '/crayon-uploads';
+$upload_path = isset($_GET['uploadPath']) ? $_GET['uploadPath'] : '../crayon-uploads';
 
 $func_num = isset($_GET['CKEditorFuncNum']) ? $_GET['CKEditorFuncNum'] : 0;
 
