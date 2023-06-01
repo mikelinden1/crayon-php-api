@@ -13,7 +13,11 @@ function has_api_access() {
     $headers = getallheaders();
     $jwt = !empty($headers['Authorization']) ? $headers['Authorization'] : $headers['authorization'];
     
-    $jwt = str_replace('Bearer ', '', $jwt);
+    if ($jwt) {
+        $jwt = str_replace('Bearer ', '', $jwt);
+    } else if (isset($_COOKIE['usr'])) {
+        $jwt = $_COOKIE['usr'];
+    }
 
     if ($jwt) {
         try {
@@ -22,7 +26,6 @@ function has_api_access() {
 
             // decode the jwt into a user
             $user = JWT::decode($jwt, $jwt_secret_key, array($jwt_hashing_algorithm));
-
             return $user;
         } catch(Exception $e) {
             header('HTTP/1.0 401 Unauthorized');
