@@ -1,6 +1,5 @@
 <?php
 require_once('utils/authorize.php');
-require_once('utils/ImageManipulator.php');
 
 header('Content-Type: application/json');
 
@@ -34,19 +33,16 @@ if (!empty($_FILES['file'])) {
             maybe_rotate_image($full_path);
 
             // generate thumbnail images
-            $image_manipulator = new ImageManipulator($full_path);
+            $imagick = new Imagick($full_path);
+            
+            $imagick->resizeImage(2000, 2000, Imagick::FILTER_LANCZOS, 1, true);
+            $imagick->writeImage("$path/large_$new_name");
 
-            $large = $image_manipulator->resample(2000, 2000);
-            $large_path = "$path/large_$new_name";
-            $large->save($large_path);
+            $imagick->resizeImage(800, 800, Imagick::FILTER_LANCZOS, 1, true);
+            $imagick->writeImage("$path/medium_$new_name");
 
-            $medium = $image_manipulator->resample(800, 800);
-            $medium_path = "$path/medium_$new_name";
-            $medium->save($medium_path);
-
-            $thumb = $image_manipulator->resample(200, 200);
-            $thumb_path = "$path/thumb_$new_name";
-            $thumb->save($thumb_path);
+            $imagick->resizeImage(200, 200, Imagick::FILTER_LANCZOS, 1, true);
+            $imagick->writeImage("$path/thumb_$new_name");
         }
 
         $query = "insert media (name, filename, module, uploaded_by, upload_date, uploaded_as) values ('$label', '$new_name', '$module_id', $user_id, NOW(), '$uploaded_as')";
