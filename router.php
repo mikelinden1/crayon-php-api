@@ -11,7 +11,6 @@ require_once('utils/database-connection.php');
 require_once('utils/password-forward-compat.php');
 
 require_once('utils/jwt-config.php');
-require_once('utils/helper-functions.php');
 
 header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
