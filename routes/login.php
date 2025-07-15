@@ -4,6 +4,7 @@ require_once('vendor/autoload.php');
 
 use \Firebase\JWT\JWT;
 
+$input = json_decode(file_get_contents('php://input'), true);
 $username = mysqli_real_escape_string($dbc, trim($input['username']));
 $password = mysqli_real_escape_string($dbc, trim($input['password']));
 
