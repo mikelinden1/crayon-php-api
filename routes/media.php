@@ -57,10 +57,8 @@ switch ($request_method) {
 
         exit;
     case 'DELETE':
-        $request = $_SERVER['PATH_INFO'];
-        $request_components = explode('/', $request);
-        $id = (int)$request_components[2];
-
+        $id = (int)$request_components[1];
+        
         if (empty($id)) {
             http_response_code(404);
             die(json_encode(error_response('No Id')));

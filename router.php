@@ -7,21 +7,31 @@
 require_once('utils/preflight-check.php');
 require_once('utils/database-connection.php');
 
+// required for PHP versions <5.5
+require_once('utils/password-forward-compat.php');
+
 require_once('utils/jwt-config.php');
-require_once('utils/helper-functions.php');
 
 header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
-$input = json_decode(file_get_contents('php://input'), true);
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
-$request = $_SERVER['PATH_INFO'];
-$request_components = explode('/', $request);
-$request = $request_components[1];
+if (empty($_GET['request'])) {
+    $request = $_SERVER['PATH_INFO'];
+} else {
+    $request = $_GET['request'];
+}
 
-switch ($request) {
+// remove slashes from beginning and end
+$request = ltrim($request, '/');
+$request = rtrim($request, '/');
+
+$request_components = explode('/', $request);
+$request_route = $request_components[0];
+
+switch ($request_route) {
     case 'login':
         require_once('routes/login.php');
         break;
@@ -36,6 +46,9 @@ switch ($request) {
         break;
     case 'users':
         require_once('routes/users.php');
+        break;
+    case 'accounts':
+        require_once('routes/accounts.php');
         break;
     case 'media':
         require_once('routes/media.php');
