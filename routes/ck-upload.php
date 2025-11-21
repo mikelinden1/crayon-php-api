@@ -26,7 +26,6 @@ if (!empty($_FILES['upload'])) {
         $path = "$path/$new_name";
 
         if (move_uploaded_file($_FILES['upload']['tmp_name'], $path)) {
-            maybe_rotate_image($path);
     		$file_link = $upload_full_path . '/' . $new_name;
         } else {
             $message = 'There was an error uploading the file. Check the upload path in config';

@@ -19,7 +19,12 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 $dbc = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 if (empty($_GET['request'])) {
-    $request = $_SERVER['PATH_INFO'];
+    $request = $_SERVER['PATH_INFO'] ?? $_SERVER['ORIG_PATH_INFO'] ?? null;
+
+    if (!$request) {
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $request = str_replace('crayon-php-api/', '', $path);
+    }
 } else {
     $request = $_GET['request'];
 }
